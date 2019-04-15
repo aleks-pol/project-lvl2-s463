@@ -1,0 +1,41 @@
+{
+  "name": "alexpol-gendiff",
+  "version": "0.0.1",
+  "description": "Hexlet Project",
+  "keywords": [
+    "hexlet"
+  ],
+  "scripts": {
+    "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
+    "prepublishOnly": "npm run build"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/aleks-pol/project-lvl2-s463.git"
+  },
+  "author": "Alexander Polovnikov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/aleks-pol/project-lvl2-s463/issues"
+  },
+  "homepage": "https://github.com/aleks-pol/project-lvl2-s463#readme",
+  "bin": {
+    "gendiff": "dist/bin/gendiff.js"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.2.3",
+    "@babel/core": "^7.3.4",
+    "@babel/node": "^7.2.2",
+    "@babel/preset-env": "^7.3.4",
+    "babel-eslint": "^10.0.1",
+    "eslint": "^5.15.2",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.16.0"
+  },
+  "files": [
+    "dist"
+  ],
+  "dependencies": {
+    "commander": "^2.20.0"
+  }
+}
