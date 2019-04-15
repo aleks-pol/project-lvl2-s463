@@ -1,7 +1,8 @@
 #!/usr/bin/env node
 
-const program = require('commander');
-const { version } = require('../../package.json');
+import program from 'commander';
+import { version } from '../../package.json';
+import genDiff from '..';
 
 program
   .version(version)
@@ -9,4 +10,7 @@ program
   .option('-f, --format [type]', 'Output format')
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
+  .action((firstFile, secondFile) => {
+    console.log(genDiff(firstFile, secondFile))
+  })
   .parse(process.argv);

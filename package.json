@@ -2,10 +2,12 @@
   "name": "alexpol-gendiff",
   "version": "0.0.1",
   "description": "Hexlet Project",
+  "main": "dist/index.js",
   "keywords": [
     "hexlet"
   ],
   "scripts": {
+    "test": "jest",
     "build": "NODE_ENV=production babel src --out-dir dist --source-maps inline",
     "prepublishOnly": "npm run build"
   },
@@ -28,14 +30,24 @@
     "@babel/node": "^7.2.2",
     "@babel/preset-env": "^7.3.4",
     "babel-eslint": "^10.0.1",
+    "babel-jest": "^24.7.1",
     "eslint": "^5.15.2",
     "eslint-config-airbnb-base": "^13.1.0",
-    "eslint-plugin-import": "^2.16.0"
+    "eslint-plugin-babel": "^5.3.0",
+    "eslint-plugin-import": "^2.16.0",
+    "eslint-plugin-jest": "^22.4.1",
+    "eslint-plugin-lodash-fp": "^2.2.0-a1",
+    "jest": "^24.7.1",
+    "jest-cli": "^24.7.1"
   },
   "files": [
     "dist"
   ],
   "dependencies": {
-    "commander": "^2.20.0"
+    "commander": "^2.20.0",
+    "lodash": "^4.17.11"
+  },
+  "jest": {
+    "testEnvironment": "node"
   }
 }
