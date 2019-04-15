@@ -13,3 +13,5 @@ $ npm install -g alexpol-gendiff
 ```bash
 $ gendiff
 ```
+
+[![asciicast](https://asciinema.org/a/ge2erfYmTmXWQ1mZgMT0810FX.svg)](https://asciinema.org/a/ge2erfYmTmXWQ1mZgMT0810FX)
