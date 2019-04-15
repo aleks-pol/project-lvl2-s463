@@ -11,6 +11,6 @@ program
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
   .action((firstFile, secondFile) => {
-    console.log(genDiff(firstFile, secondFile))
+    console.log(genDiff(firstFile, secondFile));
   })
   .parse(process.argv);

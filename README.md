@@ -11,7 +11,15 @@ $ npm install -g alexpol-gendiff
 ## Usage
 
 ```bash
-$ gendiff
+$ gendiff ./example/before.json ./example/after.json
+{
+    host: hexlet.io
+  + timeout: 20
+  - timeout: 50
+  + verbose: true
+  - proxy: 123.234.53.22
+  - follow: false
+}
 ```
 
-[![asciicast](https://asciinema.org/a/ge2erfYmTmXWQ1mZgMT0810FX.svg)](https://asciinema.org/a/ge2erfYmTmXWQ1mZgMT0810FX)
+[![asciicast](https://asciinema.org/a/pMdEPYK0CtLFPfJvh4WEu8TL8.svg)](https://asciinema.org/a/pMdEPYK0CtLFPfJvh4WEu8TL8)
