@@ -3,6 +3,7 @@
 plugins:
   - jest
   - babel
+  - prettier
 
 env:
   node: true
@@ -14,6 +15,12 @@ extends:
   - 'airbnb-base'
   - 'plugin:jest/recommended'
   - 'plugin:lodash-fp/recommended'
+  - 'prettier'
 
 rules:
   no-console: 0
+  prettier/prettier:
+    - error
+    -
+      trailingComma: all
+      bracketSpacing: true
