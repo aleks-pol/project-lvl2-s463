@@ -1,6 +1,7 @@
 import fs from 'fs';
 import yaml from 'js-yaml';
 import path from 'path';
+import ini from 'ini';
 
 export default filePath => {
   const ext = path.extname(filePath);
@@ -11,6 +12,9 @@ export default filePath => {
       break;
     case '.json':
       ({ parse } = JSON);
+      break;
+    case '.ini':
+      ({ parse } = ini);
       break;
     default:
       ({ parse } = JSON);
