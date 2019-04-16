@@ -52,6 +52,7 @@
     "lodash": "^4.17.11"
   },
   "jest": {
-    "testEnvironment": "node"
+    "testEnvironment": "node",
+    "collectCoverage": true
   }
 }
