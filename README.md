@@ -36,3 +36,17 @@ $ gendiff ./example/before.yml ./example/after.yml
 }
 ```
 [![asciicast](https://asciinema.org/a/KXf709hYYgUyWJYYNWSezos3x.svg)](https://asciinema.org/a/KXf709hYYgUyWJYYNWSezos3x)
+
+##### INI
+```bash
+$ gendiff ./example/before.ini ./example/after.ini
+{
+    host: hexlet.io
+  + timeout: 20
+  - timeout: 50
+  + verbose: true
+  - proxy: 123.234.53.22
+  - follow: false
+}
+```
+[![asciicast](https://asciinema.org/a/JWmruBeQZMqquBoNMDXEWhSjo.svg)](https://asciinema.org/a/JWmruBeQZMqquBoNMDXEWhSjo)
