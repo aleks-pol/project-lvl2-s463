@@ -50,3 +50,6 @@ $ gendiff ./example/before.ini ./example/after.ini
 }
 ```
 [![asciicast](https://asciinema.org/a/JWmruBeQZMqquBoNMDXEWhSjo.svg)](https://asciinema.org/a/JWmruBeQZMqquBoNMDXEWhSjo)
+
+### Recursive Diff
+[![asciicast](https://asciinema.org/a/MXlxeUGnrnupvlq0AAKFvpXQZ.svg)](https://asciinema.org/a/MXlxeUGnrnupvlq0AAKFvpXQZ)
