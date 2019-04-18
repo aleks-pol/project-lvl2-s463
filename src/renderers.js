@@ -36,6 +36,66 @@ const treeRender = ast => {
     .replace(/,$/gm, '');
 };
 
+const jsonRender = ast => {
+  const iter = tree => {
+    return tree.getChildren().reduce((acc, item) => {
+      const {
+        meta: { type, value, before },
+        key,
+      } = item;
+
+      switch (type) {
+        case 'removed':
+          return [
+            ...acc,
+            {
+              key,
+              value,
+              type: 'removed',
+            },
+          ];
+        case 'added':
+          return [
+            ...acc,
+            {
+              key,
+              value,
+              type: 'added',
+            },
+          ];
+        case 'changed':
+          return [
+            ...acc,
+            {
+              key,
+              value,
+              before,
+              type: 'changed',
+            },
+          ];
+        case 'changedChildren':
+          return [
+            ...acc,
+            {
+              key,
+              type: 'changedChildren',
+              children: iter(item),
+            },
+          ];
+        default:
+          return [
+            ...acc,
+            {
+              key,
+              value,
+            },
+          ];
+      }
+    }, []);
+  };
+  return JSON.stringify(iter(ast));
+};
+
 const isComplexValue = value => typeof value === 'object';
 
 const isString = value => typeof value === 'string';
@@ -99,6 +159,8 @@ export default (format = 'tree') => {
       return plainRender;
     case 'tree':
       return treeRender;
+    case 'json':
+      return jsonRender;
     default:
       return treeRender;
   }

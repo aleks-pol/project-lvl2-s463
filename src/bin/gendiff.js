@@ -44,6 +44,13 @@ program.on('--help', () => {
       "  Property 'group1.baz' was updated. From 'bas' to 'bars'\n" +
       "  Property 'group1.nest' was updated. From [complex value] to 'str'",
   );
+  console.log('');
+  console.log(
+    '  $ gendiff --format json ./example/before.json ./example/after.json',
+  );
+  console.log(
+    `[{"key":"group2","value":{"abc":"12345"},"type":"removed"},{"key":"group3","value":{"fee":"100500"},"type":"added"},{"key":"common","type":"changedChildren","children":[{"key":"setting2","value":"200","type":"removed"},{"key":"follow","value":false,"type":"added"},{"key":"setting4","value":"blah blah","type":"added"},{"key":"setting5","value":{"key5":"value5"},"type":"added"},{"key":"setting1","value":"Value 1"},{"key":"setting3","value":{"key":"value"},"before":true,"type":"changed"},{"key":"setting6","type":"changedChildren","children":[{"key":"ops","value":"vops","type":"added"},{"key":"key","value":"value"}]}]},{"key":"group1","type":"changedChildren","children":[{"key":"baz","value":"bars","before":"bas","type":"changed"},{"key":"foo","value":"bar"},{"key":"nest","value":"str","before":{"key":"value"},"type":"changed"}]}]`,
+  );
 });
 
 program.parse(process.argv);
