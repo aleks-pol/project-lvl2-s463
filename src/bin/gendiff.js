@@ -10,7 +10,7 @@ program
   .option('-f, --format [type]', 'Output format')
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
-  .action((firstFile, secondFile) => {
-    console.log(genDiff(firstFile, secondFile));
+  .action((firstFile, secondFile, { format }) => {
+    console.log(genDiff(firstFile, secondFile, format));
   })
   .parse(process.argv);
