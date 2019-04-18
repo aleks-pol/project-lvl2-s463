@@ -54,7 +54,7 @@ const diffKeys = (before, after, parent) => {
   return tree;
 };
 
-const genDiff = (firstFilePath, secondFilePath, format = 'json') => {
+const genDiff = (firstFilePath, secondFilePath, format = 'tree') => {
   const firstFile = parse(firstFilePath);
   const secondFile = parse(secondFilePath);
   const diff = diffKeys(firstFile, secondFile);
