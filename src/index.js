@@ -21,30 +21,10 @@ function createNode(key, meta = {}, parent) {
 function createTree(rootKey) {
   return createNode(rootKey);
 }
-// class Tree {
-//   constructor(key, meta, parent) {
-//     this.key = key;
-//     this.meta = meta;
-//     this.parent = parent;
-//     this.children = new Map();
-//   }
-//
-//   addChild(key, meta) {
-//     const child = new Tree(key, meta, this);
-//     this.children.set(key, child);
-//
-//     return child;
-//   }
-//
-//   getChildren() {
-//     return [...this.children.values()];
-//   }
-// }
 
 const diffKeys = (before, after, parent) => {
   const beforeKeys = Object.keys(before);
   const afterKeys = Object.keys(after);
-  // const tree = parent || new Tree('', {});
   const tree = parent || createTree('', {});
   difference(beforeKeys, afterKeys).forEach(key => {
     tree.addChild(key, { value: before[key], type: 'removed' });
