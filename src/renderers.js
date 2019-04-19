@@ -1,6 +1,6 @@
 const treeRender = ast => {
   const iter = tree => {
-    return tree.getChildren().reduce((acc, item) => {
+    return tree.children.reduce((acc, item) => {
       const {
         meta: { type, value, before },
         key,
@@ -38,7 +38,7 @@ const treeRender = ast => {
 
 const jsonRender = ast => {
   const iter = tree => {
-    return tree.getChildren().reduce((acc, item) => {
+    return tree.children.reduce((acc, item) => {
       const {
         meta: { type, value, before },
         key,
@@ -122,7 +122,7 @@ const renderKey = item => {
 
 const plainRender = ast => {
   const iter = tree => {
-    return tree.getChildren().reduce((acc, item) => {
+    return tree.children.reduce((acc, item) => {
       const {
         meta: { type, value, before },
       } = item;

@@ -3,30 +3,49 @@ import { has, difference, intersection } from 'lodash/fp';
 import parse from './parsers';
 import render from './renderers';
 
-class Tree {
-  constructor(key, meta, parent) {
-    this.key = key;
-    this.meta = meta;
-    this.parent = parent;
-    this.children = new Map();
-  }
-
-  addChild(key, meta) {
-    const child = new Tree(key, meta, this);
-    this.children.set(key, child);
-
-    return child;
-  }
-
-  getChildren() {
-    return [...this.children.values()];
-  }
+function createNode(key, meta = {}, parent) {
+  const children = [];
+  return {
+    key,
+    meta,
+    children,
+    parent,
+    addChild(childKey, childMeta) {
+      const childNode = createNode(childKey, childMeta, this);
+      children.push(childNode);
+      return childNode;
+    },
+  };
 }
+
+function createTree(rootKey) {
+  return createNode(rootKey);
+}
+// class Tree {
+//   constructor(key, meta, parent) {
+//     this.key = key;
+//     this.meta = meta;
+//     this.parent = parent;
+//     this.children = new Map();
+//   }
+//
+//   addChild(key, meta) {
+//     const child = new Tree(key, meta, this);
+//     this.children.set(key, child);
+//
+//     return child;
+//   }
+//
+//   getChildren() {
+//     return [...this.children.values()];
+//   }
+// }
 
 const diffKeys = (before, after, parent) => {
   const beforeKeys = Object.keys(before);
   const afterKeys = Object.keys(after);
-  const tree = parent || new Tree('', {});
+  // const tree = parent || new Tree('', {});
+  const tree = parent || createTree('', {});
   difference(beforeKeys, afterKeys).forEach(key => {
     tree.addChild(key, { value: before[key], type: 'removed' });
   });

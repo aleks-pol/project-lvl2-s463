@@ -7,6 +7,7 @@
 ```bash
 $ npm install -g alexpol-gendiff
 ```
+[![asciicast](https://asciinema.org/a/ge2erfYmTmXWQ1mZgMT0810FX.svg)](https://asciinema.org/a/ge2erfYmTmXWQ1mZgMT0810FX)
 
 ## Usage
 ```bash
@@ -51,4 +52,18 @@ Examples:
   {"key":"group1","type":"changedChildren","children":[{"key":"baz","value":"bars","before":"bas","type":"changed"},{"key":"foo","value":"bar"},
   {"key":"nest","value":"str","before":{"key":"value"},"type":"changed"}]}]
 ```
+[![asciicast](https://asciinema.org/a/jVApYUWVtHbpGAGn6FhCasisI.svg)](https://asciinema.org/a/jVApYUWVtHbpGAGn6FhCasisI)
+
+[![asciicast](https://asciinema.org/a/pMdEPYK0CtLFPfJvh4WEu8TL8.svg)](https://asciinema.org/a/pMdEPYK0CtLFPfJvh4WEu8TL8)
+
+[![asciicast](https://asciinema.org/a/KXf709hYYgUyWJYYNWSezos3x.svg)](https://asciinema.org/a/KXf709hYYgUyWJYYNWSezos3x)
+
+[![asciicast](https://asciinema.org/a/JWmruBeQZMqquBoNMDXEWhSjo.svg)](https://asciinema.org/a/JWmruBeQZMqquBoNMDXEWhSjo)
+
+[![asciicast](https://asciinema.org/a/MXlxeUGnrnupvlq0AAKFvpXQZ.svg)](https://asciinema.org/a/MXlxeUGnrnupvlq0AAKFvpXQZ)
+
+[![asciicast](https://asciinema.org/a/Lo8nf1Pfd3Qff26S2wrA7jlc5.svg)](https://asciinema.org/a/Lo8nf1Pfd3Qff26S2wrA7jlc5)
+
+[![asciicast](https://asciinema.org/a/WoSo9M5E9NNhzb3V5m7nUhuW1.svg)](https://asciinema.org/a/WoSo9M5E9NNhzb3V5m7nUhuW1)
+
 [![asciicast](https://asciinema.org/a/aAV9vxt1kVRXJ8d8pUQkZIAc5.svg)](https://asciinema.org/a/aAV9vxt1kVRXJ8d8pUQkZIAc5)

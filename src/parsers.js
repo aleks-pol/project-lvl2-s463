@@ -5,19 +5,15 @@ import ini from 'ini';
 
 export default filePath => {
   const ext = path.extname(filePath);
-  let parse;
+  const data = fs.readFileSync(path.resolve(filePath), 'UTF-8');
   switch (ext) {
     case '.yml':
-      parse = yaml.safeLoad;
-      break;
+      return yaml.safeLoad(data);
     case '.json':
-      ({ parse } = JSON);
-      break;
+      return JSON.parse(data);
     case '.ini':
-      ({ parse } = ini);
-      break;
+      return ini.parse(data);
     default:
-      ({ parse } = JSON);
+      return JSON.parse(data);
   }
-  return parse(fs.readFileSync(path.resolve(filePath), 'UTF-8'));
 };
