@@ -1,16 +1,14 @@
 const treeRender = ast => {
   const iter = tree => {
-    return tree.children.reduce((acc, item) => {
-      const {
-        meta: { type, value, before },
-        key,
-      } = item;
-
+    return tree.reduce((acc, item) => {
+      const { type, value, before, children, key } = item;
       switch (type) {
         case 'removed':
-          return { ...acc, [`- ${key}`]: value };
         case 'added':
-          return { ...acc, [`+ ${key}`]: value };
+          return {
+            ...acc,
+            [`${type === 'removed' ? '-' : '+'} ${key}`]: value,
+          };
         case 'changed':
           return {
             ...acc,
@@ -20,7 +18,7 @@ const treeRender = ast => {
         case 'changedChildren':
           return {
             ...acc,
-            [key]: iter(item),
+            [key]: iter(children),
           };
         default:
           return {
@@ -38,59 +36,23 @@ const treeRender = ast => {
 
 const jsonRender = ast => {
   const iter = tree => {
-    return tree.children.reduce((acc, item) => {
-      const {
-        meta: { type, value, before },
-        key,
-      } = item;
-
-      switch (type) {
-        case 'removed':
-          return [
-            ...acc,
-            {
-              key,
-              value,
-              type: 'removed',
-            },
-          ];
-        case 'added':
-          return [
-            ...acc,
-            {
-              key,
-              value,
-              type: 'added',
-            },
-          ];
-        case 'changed':
-          return [
-            ...acc,
-            {
-              key,
-              value,
-              before,
-              type: 'changed',
-            },
-          ];
-        case 'changedChildren':
-          return [
-            ...acc,
-            {
-              key,
-              type: 'changedChildren',
-              children: iter(item),
-            },
-          ];
-        default:
-          return [
-            ...acc,
-            {
-              key,
-              value,
-            },
-          ];
+    return tree.reduce((acc, item) => {
+      const { type, children } = item;
+      if (type === 'changedChildren') {
+        return [
+          ...acc,
+          {
+            ...item,
+            children: iter(children),
+          },
+        ];
       }
+      return [
+        ...acc,
+        {
+          ...item,
+        },
+      ];
     }, []);
   };
   return JSON.stringify(iter(ast));
@@ -115,17 +77,15 @@ const renderKey = item => {
     if (!el.parent) {
       return acc;
     }
-    return iter(el.parent, [el.key, ...acc]);
+    return iter(el.parent, [el.parent.key, ...acc]);
   };
-  return iter(item, []).join('.');
+  return iter(item, [item.key]).join('.');
 };
 
 const plainRender = ast => {
   const iter = tree => {
-    return tree.children.reduce((acc, item) => {
-      const {
-        meta: { type, value, before },
-      } = item;
+    return tree.reduce((acc, item) => {
+      const { type, value, before, children } = item;
       switch (type) {
         case 'removed':
           return [...acc, `Property '${renderKey(item)}' was removed`];
@@ -144,7 +104,7 @@ const plainRender = ast => {
             )} to ${renderValue(value)}`,
           ];
         case 'changedChildren':
-          return [...acc, ...iter(item)];
+          return [...acc, ...iter(children)];
         default:
           return acc;
       }
