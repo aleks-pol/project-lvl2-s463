@@ -1,54 +1,83 @@
-import { has, difference, intersection } from 'lodash/fp';
+import { has, union, isObject, map, compose, sortBy } from 'lodash/fp';
+import path from 'path';
+import fs from 'fs';
 import parse from './parsers';
 import render from './renderers';
 
 const diffKeys = (before, after, parent) => {
   const beforeKeys = Object.keys(before);
   const afterKeys = Object.keys(after);
-  const removedKeys = difference(beforeKeys, afterKeys).map(key => ({
-    key,
-    value: before[key],
-    type: 'removed',
-    parent,
-  }));
-  const addedKeys = difference(afterKeys, beforeKeys).map(key => ({
-    key,
-    value: after[key],
-    type: 'added',
-    parent,
-  }));
-  const commonKeys = intersection(afterKeys, beforeKeys).map(key => {
-    const noChangeVal = has(key, before) && before[key] === after[key];
-    const beforeHasChildren = typeof before[key] === 'object';
-    const afterHasChildren = typeof after[key] === 'object';
-    if (noChangeVal) {
-      return { key, value: before[key], type: 'equals', parent };
-    }
-    if (beforeHasChildren && afterHasChildren) {
-      const child = { key, type: 'changedChildren', parent };
+  const mapKeys = key => {
+    const beforeHasKey = has(key, before);
+    const afterHasKey = has(key, after);
+    const beforeHasChildren = isObject(before[key]);
+    const afterHasChildren = isObject(after[key]);
+    if (before[key] === after[key]) {
       return {
         key,
-        type: 'changedChildren',
         parent,
+        meta: {
+          type: 'equals',
+          oldValue: before[key],
+        },
+      };
+    }
+    if (beforeHasKey && !afterHasKey) {
+      return {
+        key,
+        parent,
+        meta: {
+          type: 'removed',
+          oldValue: before[key],
+        },
+      };
+    }
+    if (!beforeHasKey && afterHasKey) {
+      return {
+        key,
+        parent,
+        meta: {
+          type: 'added',
+          newValue: after[key],
+        },
+      };
+    }
+    if (beforeHasChildren && afterHasChildren) {
+      const child = { key, meta: { type: 'changedChildren' }, parent };
+      return {
+        key,
+        parent,
+        meta: {
+          type: 'changedChildren',
+        },
         children: diffKeys(before[key], after[key], child),
       };
     }
     return {
       key,
-      type: 'changed',
-      value: after[key],
-      before: before[key],
       parent,
+      meta: {
+        type: 'changed',
+        oldValue: before[key],
+        newValue: after[key],
+      },
     };
-  });
-
-  return [...removedKeys, ...addedKeys, ...commonKeys];
+  };
+  return compose(
+    sortBy('key'),
+    map(mapKeys),
+    union(beforeKeys),
+  )(afterKeys);
 };
 
-const genDiff = (firstFilePath, secondFilePath, format = 'tree') => {
-  const firstFile = parse(firstFilePath);
-  const secondFile = parse(secondFilePath);
-  const diff = diffKeys(firstFile, secondFile);
+const genDiff = (beforePath, afterPath, format = 'tree') => {
+  const beforeData = parse(path.extname(beforePath))(
+    fs.readFileSync(beforePath, 'UTF-8'),
+  );
+  const afterData = parse(path.extname(afterPath))(
+    fs.readFileSync(afterPath, 'UTF-8'),
+  );
+  const diff = diffKeys(beforeData, afterData);
   return render(format)(diff);
 };
 
