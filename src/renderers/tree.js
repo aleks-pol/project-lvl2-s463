@@ -1,5 +1,6 @@
 import { isObject } from 'lodash/fp';
 
+const START_INDENT = 2;
 const renderValue = (value, indent) => {
   if (isObject(value)) {
     const spaceIndent = ' '.repeat(indent);
@@ -14,8 +15,9 @@ const renderValue = (value, indent) => {
 };
 
 export default ast => {
-  const START_INDENT = 2;
   const iter = (tree, indent) => {
+    const spaceIndent = ' '.repeat(indent);
+    const equalsSpaceIndent = ' '.repeat(indent + 2);
     return tree
       .reduce((acc, item) => {
         const {
@@ -23,8 +25,6 @@ export default ast => {
           children,
           key,
         } = item;
-        const spaceIndent = ' '.repeat(indent);
-        const equalsSpaceIndent = ' '.repeat(indent + 2);
         switch (type) {
           case 'removed':
             return [
