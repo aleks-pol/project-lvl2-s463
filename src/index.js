@@ -4,7 +4,7 @@ import fs from 'fs';
 import parse from './parsers';
 import render from './renderers';
 
-const diffKeys = (before, after, parent) => {
+const buildAstTree = (before, after, parent) => {
   const beforeKeys = Object.keys(before);
   const afterKeys = Object.keys(after);
   const mapKeys = key => {
@@ -50,7 +50,7 @@ const diffKeys = (before, after, parent) => {
         meta: {
           type: 'changedChildren',
         },
-        children: diffKeys(before[key], after[key], child),
+        children: buildAstTree(before[key], after[key], child),
       };
     }
     return {
@@ -77,8 +77,8 @@ const genDiff = (beforePath, afterPath, format = 'tree') => {
   const afterData = parse(path.extname(afterPath))(
     fs.readFileSync(afterPath, 'UTF-8'),
   );
-  const diff = diffKeys(beforeData, afterData);
-  return render(format)(diff);
+  const ast = buildAstTree(beforeData, afterData);
+  return render(format)(ast);
 };
 
 export default genDiff;
