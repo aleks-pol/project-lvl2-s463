@@ -1,10 +1,10 @@
 import yaml from 'js-yaml';
 import ini from 'ini';
 
-const PARSER = {
+const parser = {
   '.yml': yaml.safeLoad,
   '.json': JSON.parse,
   '.ini': ini.parse,
 };
 
-export default ext => PARSER[ext];
+export default ext => parser[ext];

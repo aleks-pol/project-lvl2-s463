@@ -11,13 +11,13 @@ program
   .option('-f, --format [type]', 'Output format')
   .arguments('<firstConfig>')
   .arguments('<secondConfig>')
-  .action((firstFile, secondFile, { format }) => {
-    console.log(genDiff(firstFile, secondFile, format));
+  .action((beforePath, afterPath, { format }) => {
+    console.log(genDiff(beforePath, afterPath, format));
   });
 
 program.on('--help', () => {
-  const helpFile = fs.readFileSync('help', 'UTF-8');
-  console.log(helpFile);
+  const content = fs.readFileSync('help', 'UTF-8');
+  console.log(content);
 });
 
 program.parse(process.argv);
