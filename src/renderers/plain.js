@@ -18,10 +18,10 @@ const renderValue = value => {
 };
 
 export default ast => {
-  const iter = (tree, parent) => {
+  const iter = (tree, parent = '') => {
     return tree.map(item => {
       const { key, oldValue, newValue, type, children } = item;
-      const combinedKey = parent ? `${parent}.${key}` : key;
+      const combinedKey = `${parent}${key}`;
       switch (type) {
         case 'removed':
           return `Property '${combinedKey}' was removed`;
@@ -34,11 +34,11 @@ export default ast => {
             oldValue,
           )} to ${renderValue(newValue)}`;
         case 'nested':
-          return iter(children, `${combinedKey}`);
+          return iter(children, `${combinedKey}.`);
         case 'equals':
-          return '';
+          return null;
         default:
-          throw new Error('Invalid type');
+          throw new Error('Invalid tree item type');
       }
     });
   };
@@ -47,5 +47,5 @@ export default ast => {
     join('\n'),
     compact,
     flattenDeep,
-  )(iter(ast, ''));
+  )(iter(ast));
 };

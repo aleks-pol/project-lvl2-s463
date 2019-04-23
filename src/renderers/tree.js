@@ -1,6 +1,6 @@
 import { isObject, flattenDeep, compose, map, join } from 'lodash/fp';
 
-const START_INDENT = 2;
+const START_DEPTH = 2;
 const renderValue = (value, indent) => {
   if (!isObject(value)) {
     return value;
@@ -13,30 +13,30 @@ const renderValue = (value, indent) => {
 };
 
 export default ast => {
-  const iter = (tree, indent) => {
-    const spaceIndent = ' '.repeat(indent);
-    const equalsSpaceIndent = ' '.repeat(indent + 2);
+  const iter = (tree, depth) => {
+    const spaceIndent = ' '.repeat(depth);
+    const equalsSpaceIndent = ' '.repeat(depth + 2);
     const buildString = item => {
       const { oldValue, newValue, type, children, key } = item;
       switch (type) {
         case 'removed':
-          return `${spaceIndent}- ${key}: ${renderValue(oldValue, indent)}`;
+          return `${spaceIndent}- ${key}: ${renderValue(oldValue, depth)}`;
         case 'added':
-          return `${spaceIndent}+ ${key}: ${renderValue(newValue, indent)}`;
+          return `${spaceIndent}+ ${key}: ${renderValue(newValue, depth)}`;
         case 'changed':
-          return `${spaceIndent}+ ${key}: ${renderValue(
-            newValue,
-            indent,
-          )}\n${spaceIndent}- ${key}: ${renderValue(oldValue, indent)}`;
+          return [
+            `${spaceIndent}+ ${key}: ${renderValue(newValue, depth)}`,
+            `${spaceIndent}- ${key}: ${renderValue(oldValue, depth)}`,
+          ];
         case 'nested':
           return `${spaceIndent}${key}: {\n${iter(
             children,
-            indent + 2,
+            depth + 2,
           )}\n${spaceIndent}}`;
         case 'equals':
-          return `${equalsSpaceIndent}${key}: ${renderValue(oldValue, indent)}`;
+          return `${equalsSpaceIndent}${key}: ${renderValue(oldValue, depth)}`;
         default:
-          throw new Error('Invalid type');
+          throw new Error('Invalid tree item type');
       }
     };
     return compose(
@@ -45,5 +45,5 @@ export default ast => {
       map(buildString),
     )(tree);
   };
-  return `{\n${iter(ast, START_INDENT)}\n}`;
+  return `{\n${iter(ast, START_DEPTH)}\n}`;
 };
